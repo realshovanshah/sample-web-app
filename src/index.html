@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Url Snapshot</title>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.1/dist/cdn.min.js"
+    ></script>
+  </head>
+
+  <body>
+    <main
+      style="
+        height: 90vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      "
+    >
+      <div x-data="url">
+        <label for="urlInput">Enter your URL here:</label>
+        <!-- Alpine's `.throttle` doesn't support trailing throttle; hence the unidomatic use of a different throttle library.
+      Another alternative is `.debounce`, which also works nicely in UIs like this. 
+      More at: https://github.com/alpinejs/alpine/discussions/2905 -->
+        <input
+          id="urlInput"
+          type="text"
+          placeholder="lemmy.com"
+          style="display: block; width: 50vw; padding: 0.5rem; margin: 0.5rem 0"
+          @input="handleInputWithThrottle($el.value)"/>
+
+        <br/>
+
+        <div id="status" style="display:flex; justify-content: center">
+          <div x-show="state.status=='loading'" x-text="state.message"></div>
+          <div x-show="state.status=='success'" x-text="state.message"></div>
+          <div x-show="state.status=='failure'" x-text="state.message"></div>
+      </div>
+    </main>
+
+    <script type="module">
+      import url from "./url"; window.url = url;
+    </script>
+  </body>
+</html>
